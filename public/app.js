@@ -1,3 +1,17 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const nickname = localStorage.getItem('nickname');
+    
+    if (nickname) {
+      // Aquí puedes utilizar el nickname para personalizar la página
+      // Por ejemplo, puedes mostrar un mensaje de bienvenida
+      console.log(`¡Bienvenido ${nickname}!`);
+    } else {
+        // Si no hay un nickname guardado, puedes redirigir al usuario a la página de inicio de sesión
+        window.location.href = './signin.html';
+      }
+    });  
+
+
 const productos = [
   {
       id: 1,

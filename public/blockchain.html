@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo de conexión a Ganache y MetaMask</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Ejemplo de conexión a Ganache y MetaMask</h1>
+  <p>Red: <span id="network">Desconocida</span></p>
+  <p>Cuenta: <span id="account">Desconocida</span></p>
+  <p>Saldo: <span id="balance">Desconocido</span> ETH</p>
+  <button id="send-transaction">Enviar transacción</button>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <script>
+    $(document).ready(async function() {
+      // Conectarse a MetaMask
+      await window.ethereum.enable();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Obtener la red activa
+      const network = await provider.getNetwork();
+
+      // Obtener la dirección de la cuenta activa
+      const signer = provider.getSigner();
+      const account = await signer.getAddress();
+
+      // Obtener el saldo de la cuenta activa
+      const balance = await provider.getBalance(account);
+      const balanceETH = ethers.utils.formatEther(balance);
+
+      // Actualizar la información en la página
+      $('#network').text(network.name);
+      $('#account').text(account);
+      $('#balance').text(balanceETH);
+
+      // Manejar el evento del botón "Enviar transacción"
+      $('#send-transaction').on('click', async function() {
+        const abi=[
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "idproducto",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "comprador",
+              "type": "address"
+            }
+          ],
+          "name": "Informacion_de_transaccion",
+          "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "owner",
+          "outputs": [
+            {
+              "internalType": "address payable",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "precio",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "comprador",
+              "type": "address"
+            }
+          ],
+          "name": "pagarProducto",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function",
+          "payable": true
+        }
+      ];
+        const direccionContrato = '0xdcE7DE58566411e0e17D3E81085d74E455537A5D';
+        const contrato = new ethers.Contract(direccionContrato, abi, signer);
+
+        const precioProducto = ethers.utils.parseEther("1"); // El precio del producto en ETH
+        const cuentaUsuario = account; // La dirección de la cuenta del usuario
+        const id = 3;
+        contrato.pagarProducto(precioProducto,id,account,{value: precioProducto})
+        .then((resultado) => {
+          console.log(resultado);
+          alert('Pago realizado con éxito')
+          console.log("Pago realizado con éxito");
+        })
+        .catch((error) => {
+          console.error("Error al realizar el pago:", error);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
