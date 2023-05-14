@@ -98,3 +98,22 @@ app.listen(3000, () => {
 
 // Llama a la función chatbot
 //chatbotGPT();
+
+
+//sql
+import techzoneDB  from './db.js';
+
+// Acceder a la conexión y utilizarla si es necesario
+// techzoneDB.connection.query(...);
+
+// Insertar un cliente en la tabla "customers"
+const newCustomer = {name: 'name', email: 'email', nickname: 'nickname' };
+techzoneDB.insertCustomer(newCustomer, (err, results) => {
+  if (err) {
+    // Manejar el error
+    console.log(err);
+    return;
+  }
+  // Hacer algo con los resultados
+  
+});
