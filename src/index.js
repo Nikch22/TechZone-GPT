@@ -1,8 +1,7 @@
 import chatbotGPT from "./openaiAPI.js";
-import techzoneDB  from './db.js';
+import techzoneDB from "./db.js";
 import express from "express";
 import axios from "axios";
-
 
 const app = express();
 const WEBHOOK_URL = process.env.WEBHOOK_URL || "/webhook/pago";
@@ -12,34 +11,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  if (req.method === 'OPTIONS') {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  if (req.method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     return res.status(200).json({});
-}
-  next();
-});
-
-// Ruta para el webhook de pago
-app.post(WEBHOOK_URL, (req, res) => {
-  try {
-    // Validar los datos del evento de pago
-    const eventoPago = req.body;
-    /*  if (!eventoPago || !eventoPago.id || !eventoPago.monto) {
-      throw new Error('Datos de evento de pago no válidos');
-    }*/
-
-    // Procesar los datos del evento de pago
-    console.dir(`Evento de pago recibido: ${JSON.stringify(eventoPago)}`);
-    // Aquí es donde realizarías las acciones necesarias en respuesta al evento de pago
-
-    // Enviar una respuesta al webhook para confirmar que has recibido y procesado el evento
-    res.status(200).send("Evento de pago recibido");
-  } catch (error) {
-    console.error(`Error al procesar evento de pago: ${error.message}`);
-    // Manejar los errores de manera adecuada y enviar una respuesta con un código de estado apropiado
-    res.status(400).send(error.message);
   }
+  next();
 });
 
 app.post("/chatbot", async (req, res) => {
@@ -61,45 +41,63 @@ app.post("/chatbot", async (req, res) => {
 app.post(WEBHOOK_URL, (req, res) => {
   try {
     // Validar los datos del evento de pago
-    const eventoPago = req.body;
+    const jsonDatosPago = req.body;
     /*  if (!eventoPago || !eventoPago.nickname || !eventoPago.email || !eventoPago.monto) {
       throw new Error('Datos de evento de pago no válidos');
     }*/
 
-    // Procesar los datos del evento de pago
-    console.log(`Evento de pago recibido: ${JSON.stringify(eventoPago)}`);
-    // Aquí es donde realizarías las acciones necesarias en respuesta al evento de pago
+    // Registro pago en consola y en la tabla sales
+    const nombresProductos = JSON.stringify(jsonDatosPago.nombresProductos);
+    console.log(
+      `Evento de pago recibido: ${JSON.stringify(jsonDatosPago.nickname)}`
+    );
+    const nuevaVenta = {
+      nickname: jsonDatosPago.nickname,
+      correo: jsonDatosPago.correo,
+      nombreProductos: nombresProductos,
+      valorPagar: jsonDatosPago.valorAPagar,
+      divisa: "ETH",
+    };
+    techzoneDB.insertarVenta(nuevaVenta, (err, id) => {
+      if (err) {
+        // manejar el error
+        console.error("Error en la inserción de la venta: " + err);
+      } else {
+        console.log("ID de venta: ", id);
 
-    // Enviar una respuesta al webhook para confirmar que has recibido y procesado el evento
-    res.status(200).send("Evento de pago recibido");
+        /* Notificación a bonitasoft */
+        const jsonDataBonita = {
+          sale_id: id,
+          customer: jsonDatosPago.nickname,
+          email: jsonDatosPago.correo,
+          product: nombresProductos,
+        };
+
+        const jsonVenta = JSON.stringify(jsonDataBonita);
+        axios
+          .post(
+            "https://hooks.zapier.com/hooks/catch/15227573/362unrx/",
+            jsonVenta
+          )
+          .then((response) => {
+            console.log(
+              "La petición se envió correctamente a bonitasoft:\n" + jsonVenta
+            );
+            res.status(200).send("Evento de pago recibido y procesado correctamente");
+          })
+          .catch((error) => {
+            console.error("Error al enviar la petición al webhook:", error);
+            res.status(500).send("Error al procesar el evento de pago");
+          });
+      }
+    });
+
   } catch (error) {
     console.error(`Error al procesar evento de pago: ${error.message}`);
     // Manejar los errores de manera adecuada y enviar una respuesta con un código de estado apropiado
     res.status(400).send(error.message);
   }
-
-
-  //Notificación a bonitasoft
-  // const jsonData = {
-  //   sale_id: "002",
-  //   customer: "Sanse",
-  //   email: "sanse@customer.es",
-  //   product: "Monitor TN",
-  // };
-
-  // const jsonSale = JSON.stringify(jsonData);
-  // axios
-  //   .post("https://hooks.zapier.com/hooks/catch/15227573/362unrx/", jsonSale)
-  //   .then((response) => {
-  //     console.log("La petición se envió correctamente a bonitasoft:\n" + jsonSale);
-  //     res.sendStatus(200);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error al enviar la petición al webhook:", error);
-  //     res.sendStatus(500);
-  //   });
 });
-
 
 // Manejar rutas no encontradas
 app.use((req, res) => {
@@ -119,7 +117,6 @@ app.listen(3000, () => {
 
 // Llama a la función chatbot
 //chatbotGPT();
-
 
 //sql
 /*

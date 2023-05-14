@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Ejemplo de conexión a Ganache y MetaMask</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <h1>Ejemplo de conexión a Ganache y MetaMask</h1>
@@ -13,7 +12,7 @@
   <button id="send-transaction">Enviar transacción</button>
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
   <script>
-    $(document).ready(async function() {
+    window.addEventListener('DOMContentLoaded', async (event) => {
       // Conectarse a MetaMask
       await window.ethereum.enable();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -30,12 +29,12 @@
       const balanceETH = ethers.utils.formatEther(balance);
 
       // Actualizar la información en la página
-      $('#network').text(network.name);
-      $('#account').text(account);
-      $('#balance').text(balanceETH);
+      document.getElementById('network').textContent = network.name;
+      document.getElementById('account').textContent = account;
+      document.getElementById('balance').textContent = balanceETH;
 
       // Manejar el evento del botón "Enviar transacción"
-      $('#send-transaction').on('click', async function() {
+      document.getElementById('send-transaction').addEventListener('click', async function() {
         const abi=[
         {
           "inputs": [],
@@ -99,8 +98,8 @@
           "type": "function",
           "payable": true
         }
-      ];
-        const direccionContrato = '0xdcE7DE58566411e0e17D3E81085d74E455537A5D';
+        ];
+        const direccionContrato = '0x9e4371A073324b7Ee2564e22d03Ec88C5f93f968';
         const contrato = new ethers.Contract(direccionContrato, abi, signer);
 
         const precioProducto = ethers.utils.parseEther("1"); // El precio del producto en ETH

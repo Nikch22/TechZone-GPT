@@ -33,9 +33,22 @@ function insertarCustomer(customer, callback) {
   });
 }
 
+// Función para insertar un cliente en la tabla "customers"
+function insertarVenta(sale, callback) {
+  connection.query('INSERT INTO ventas SET ?', sale, (err, results) => {
+    if (err) {
+      console.error('Error al insertar la venta: ', err);
+      callback(err, null);
+      return;
+    }
+    console.log('Venta insertado exitosamente');
+    callback(null, results.insertId);
+  });
+}
+
 // Función para buscar un cliente en la tabla "customers" por su nickname
 function buscarCustomerPorNickname(nickname, callback) {
-  connection.query('SELECT * FROM customers WHERE nickname = ?', nickname, (err, results) => {
+  return connection.query('SELECT * FROM customers WHERE nickname = ?', nickname, (err, results) => {
     if (err) {
       console.error('Error al un cliente el nickname: ', err);
       callback(err, null);
@@ -47,4 +60,4 @@ function buscarCustomerPorNickname(nickname, callback) {
 }
 
 // Exportar las funciones y la conexión para su uso en otros archivos
-export default { connection, insertarCustomer };
+export default { connection, insertarCustomer, insertarVenta };

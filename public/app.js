@@ -1,10 +1,39 @@
+let provider;
+let network;
+let signer; 
+let account;
+let balance; 
+let balanceETH;
+
 document.addEventListener("DOMContentLoaded", function () {
   const nickname = localStorage.getItem("nickname");
-
+ 
   if (nickname) {
     // Aquí puedes utilizar el nickname para personalizar la página
     // Por ejemplo, puedes mostrar un mensaje de bienvenida
-    console.log(`¡Bienvenido ${nickname}!`);
+    console.log(`¡Bienvenid@ ${nickname}!`);
+    //Variable Blockchain
+    window.addEventListener("DOMContentLoaded", async (event) => {
+      // Conectarse a MetaMask
+      await window.ethereum.enable();
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Obtener la red activa
+      network = await provider.getNetwork();
+
+      // Obtener la dirección de la cuenta activa
+      signer = provider.getSigner();
+      account = await signer.getAddress();
+
+      // Obtener el saldo de la cuenta activa
+      balance = await provider.getBalance(account);
+      balanceETH = ethers.utils.formatEther(balance);
+
+      // Actualizar la información en la página
+      // document.getElementById("network").textContent = network.name;
+      // document.getElementById("account").textContent = account;
+      // document.getElementById("balance").textContent = balanceETH;
+    });
   } else {
     // Si no hay un nickname guardado, puedes redirigir al usuario a la página de inicio de sesión
     window.location.href = "./signin.html";
@@ -14,9 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
 const productos = [
   {
     id: 1,
-    nombre: "Libro",
+    nombre: "Disco Externo",
     precio: 0.01,
-    imagen: "img/book.png",
+    imagen: "img/DiscoExterno.jpg",
     descripcion:
       "'Fuerzas invisibles' es un thriller apasionante que le mantendrá en vilo de principio a fin. Cuando una serie de sucesos inexplicables ocurren en una pequeña ciudad, un grupo de héroes improbables debe unirse para descubrir la verdad que se esconde tras las misteriosas fuerzas en juego.",
   },
@@ -41,6 +70,22 @@ const productos = [
     nombre: "Consola",
     precio: 8.27,
     imagen: "img/console.png",
+    descripcion:
+      "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
+  },
+  {
+    id: 5,
+    nombre: "Kit 'Teclado + Ratón'",
+    precio: 2.27,
+    imagen: "img/kit.jpg",
+    descripcion:
+      "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
+  },
+  {
+    id: 6,
+    nombre: "Laptop",
+    precio: 0.17,
+    imagen: "img/laptop.jpg",
     descripcion:
       "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
   },
@@ -106,55 +151,148 @@ function mostrarCarrito() {
 
   const total = carrito.reduce((total, producto) => total + producto.precio, 0);
 
-  pagoBtn.addEventListener('click', () => {
-    realizarPago(carrito,total);
-  })
+  pagoBtn.addEventListener("click", () => {
+    realizarPago(carrito, total);
+  });
 
   totalCarritoEl.innerText = `Total a pagar: $${total}`;
   totalCarritoEl.appendChild(pagoBtn);
 }
 
-const realizarPago = (carrito,valorAPagar) => {
+const realizarPagoBlockchain = async (totalPago,ids) => {
+  const abi = [
+    {
+      inputs: [],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "idproducto",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "comprador",
+          type: "address",
+        },
+      ],
+      name: "Informacion_de_transaccion",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address payable",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+      constant: true,
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "precio",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256[]",
+          name: "ids",
+          type: "uint256[]",
+        },
+        {
+          internalType: "address",
+          name: "comprador",
+          type: "address",
+        },
+      ],
+      name: "pagarProducto",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+      payable: true,
+    },
+  ];
+  const direccionContrato = "0x3b352415a891d572fF005D62ac6cD531b91ceF56";
+  const contrato = new ethers.Contract(direccionContrato, abi, signer);
+
+  const precioProducto = ethers.utils.parseEther(totalPago.toString()); // El precio del producto en ETH
+  const cuentaUsuario = account; // La dirección de la cuenta del usuario
+  //const ids = 3;
+  try {
+    await contrato.pagarProducto(precioProducto, ids, cuentaUsuario, {
+      value: precioProducto,
+    });
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const realizarPago = (carrito, valorAPagar) => {
   let nombresProductos = [];
-    if (carrito !== '' && carrito.length > 0) {
-      //Obtengo los datos para el objeto a enviar
-      carrito.forEach((producto) => {
-        nombresProductos.push(producto.nombre)
-      })
-      const nickname = localStorage.getItem("nickname");
-      const correo = localStorage.getItem("correo");
+  let idsProductos = [];
+  if (carrito !== "" && carrito.length > 0) {
+    //Obtengo los datos para el objeto a enviar
+    carrito.forEach((producto) => {
+      nombresProductos.push(producto.nombre);
+      idsProductos.push(producto.id)
+    });
+    const nickname = localStorage.getItem("nickname");
+    const correo = localStorage.getItem("correo");
 
-    // Armar el JSON
-    const data = {
-      nickname: nickname,
-      correo: correo,
-      nombresProductos: nombresProductos,
-      valorAPagar: valorAPagar
-    };
+    //Procesar Pago en la Blockchain
+    // Manejar el evento del botón "Enviar transacción"
+    realizarPagoBlockchain(valorAPagar,idsProductos)
+      .then((resultado) => {
+        alert("Pago realizado con éxito");
 
-    // Convertir el JSON a texto
-    const jsonDatosPago = JSON.stringify(data);
+        /* Enviar datos al Backend */
+        // Armar el JSON
+        const data = {
+          nickname: nickname,
+          correo: correo,
+          nombresProductos: nombresProductos,
+          valorAPagar: valorAPagar,
+        };
+        // Convertir el JSON a texto
+        const jsonDatosPago = JSON.stringify(data);
 
-    console.log(jsonDatosPago);
-    fetch('http://localhost:3000/webhook/pago', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonDatosPago // el mensaje de parámetro que quieres enviar
-      })
-      .then(response => response.json())
-      .then(data => {
+        console.log(jsonDatosPago);
+        fetch("http://localhost:3000/webhook/pago", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: jsonDatosPago, // el mensaje de parámetro que quieres enviar
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data !== "") {
+              alert("Pago Notificado Exitosamente!");
+            }
+          })
+          .catch((error) => console.error(error));
 
-        if (data !== '') {
-          alert('Pago Realizado Exitosamente!')
+      }) 
+      .catch((error) => {//Error del pago en la blockchain
+        console.error("Error al realizar el pago:", error);
+      });
 
-        }
-      })
-      .catch(error => console.error(error));
-    }
-    
-}
+
+  }
+};
 
 function eliminarDelCarrito(id) {
   const index = carrito.findIndex((producto) => producto.id === id);
