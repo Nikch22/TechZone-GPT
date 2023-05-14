@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Hola')
       // Guarda el nickname en LocalStorage
       localStorage.setItem('nickname', nickname.value);
+      // Guarda el nickname en LocalStorage
+      localStorage.setItem('correo', correo.value);
       // Si todos los campos están llenos, redirige a index.html
       window.location.href = './index.html';
     }

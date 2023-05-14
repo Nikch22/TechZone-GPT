@@ -106,8 +106,54 @@ function mostrarCarrito() {
 
   const total = carrito.reduce((total, producto) => total + producto.precio, 0);
 
+  pagoBtn.addEventListener('click', () => {
+    realizarPago(carrito,total);
+  })
+
   totalCarritoEl.innerText = `Total a pagar: $${total}`;
   totalCarritoEl.appendChild(pagoBtn);
+}
+
+const realizarPago = (carrito,valorAPagar) => {
+  let nombresProductos = [];
+    if (carrito !== '' && carrito.length > 0) {
+      //Obtengo los datos para el objeto a enviar
+      carrito.forEach((producto) => {
+        nombresProductos.push(producto.nombre)
+      })
+      const nickname = localStorage.getItem("nickname");
+      const correo = localStorage.getItem("correo");
+
+    // Armar el JSON
+    const data = {
+      nickname: nickname,
+      correo: correo,
+      nombresProductos: nombresProductos,
+      valorAPagar: valorAPagar
+    };
+
+    // Convertir el JSON a texto
+    const jsonDatosPago = JSON.stringify(data);
+
+    console.log(jsonDatosPago);
+    fetch('http://localhost:3000/webhook/pago', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonDatosPago // el mensaje de parámetro que quieres enviar
+      })
+      .then(response => response.json())
+      .then(data => {
+
+        if (data !== '') {
+          alert('Pago Realizado Exitosamente!')
+
+        }
+      })
+      .catch(error => console.error(error));
+    }
+    
 }
 
 function eliminarDelCarrito(id) {

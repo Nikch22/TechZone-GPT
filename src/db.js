@@ -4,7 +4,7 @@ import mysql from 'mysql';
 const dbConfig = {
   host: 'localhost', // Cambia esto si tu base de datos no está en tu máquina local
   user: 'root',
-  password: 'karel123',
+  password: 'root',
   database: 'techzone'
 };
 
@@ -21,7 +21,7 @@ connection.connect((err) => {
 });
 
 // Función para insertar un cliente en la tabla "customers"
-function insertCustomer(customer, callback) {
+function insertarCustomer(customer, callback) {
   connection.query('INSERT INTO customers SET ?', customer, (err, results) => {
     if (err) {
       console.error('Error al insertar un cliente: ', err);
@@ -33,5 +33,18 @@ function insertCustomer(customer, callback) {
   });
 }
 
+// Función para buscar un cliente en la tabla "customers" por su nickname
+function buscarCustomerPorNickname(nickname, callback) {
+  connection.query('SELECT * FROM customers WHERE nickname = ?', nickname, (err, results) => {
+    if (err) {
+      console.error('Error al un cliente el nickname: ', err);
+      callback(err, null);
+      return;
+    }
+    console.log('Cliente encontrado exitosamente');
+    callback(null, results);
+  });
+}
+
 // Exportar las funciones y la conexión para su uso en otros archivos
-export default { connection, insertCustomer };
+export default { connection, insertarCustomer };
