@@ -13,11 +13,7 @@
     <link rel="stylesheet" href="styles.css" />
     <!-- Enlace al conjunto de iconos Font Awesome -->
     <script
-      src="https://kit.fontawesome.com/c6c5f12735.js"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://kit.fontawesome.com/3eae224327.js"
+      src="https://kit.fontawesome.com/0e912c0c5a.js"
       crossorigin="anonymous"
     ></script>
     <title>Inicio</title>
@@ -55,17 +51,22 @@
           <button
             class="btn btn-outline-secondary cart-btn"
             type="button"
-            data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            id="cartBtnH"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            id="cartBtn"
           >
             <i class="fas fa-shopping-cart"></i> Carrito
-            <span class="badge text-bg-secondary cantidad-carrito">0</span>
+            <span class="badge text-bg-secondary" id="cantidad-carrito">0</span>
           </button>
         </div>
       </div>
     </nav>
 
-    <div class="row h-100 main collapse position-fixed end-0" id="collapseExample">
+    <!-- Contenedor para el carrito de compras que incluye una tabla para mostrar los productos seleccionados, sus precios y una opción para eliminarlos -->
+    <div
+      class="row h-100 main collapse position-absolute end-0 cart"
+      id="collapseExample"
+    >
       <div class="col m-0 p-0 h-100">
         <div
           class="d-flex flex-column align-items-stretch flex-shrink-0 text-bg-dark ms-auto"
@@ -83,7 +84,7 @@
             <span class="fs-5 fw-semibold">Artículos Añadidos</span>
           </a>
           <div class="list-group list-group-flush border-bottom scrollarea">
-              <table class="table table-dark table-hover">
+            <table class="table table-dark table-hover" id="carrito">
               <thead>
                 <tr>
                   <th>Producto</th>
@@ -93,29 +94,14 @@
               <tbody class="table-group-divider"></tbody>
             </table>
             <!-- Elemento para mostrar el total de la compra -->
-            <div class="total-carrito"></div>
+            <div class="table table-dark" id="total-carrito"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Contenedor para el carrito de compras que incluye una tabla para mostrar los productos seleccionados, sus precios y una opción para eliminarlos -->
-    <div class="carrito">
-      <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <!-- Elemento para mostrar el total de la compra -->
-      <div class="total-carrito"></div>
-    </div>
-
     <!-- Inicio Cuerpo de la web-->
-    <div class="container my-5">
+    <div class="container my-2">
       <div
         class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg"
       >
@@ -152,54 +138,33 @@
       </div>
     </div>
 
-    <footer class="bg-dark">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h3 class="text-light">Contacto</h3>
-            <ul class="list-unstyled text-light">
-              <li>
-                <a href="mail_to:info@techzone.com" class="text-light"
-                  >Correo: info@techzone.com</a
-                >
-              </li>
-              <li>
-                <a href="tel:+1234567890" class="text-light"
-                  >Tel: +34 957 567 890</a
-                >
-              </li>
-              <li><a href="#" class="text-light">Dirección</a></li>
-            </ul>
+    <footer class="bg-dark text-center h5 m-0">
+      <div class="container text-light py-2">
+        <div class="row align-items-center">
+          <div class="col-md-6 h4">
+            <h5 class="text-start">Información de contacto</h5>
+            <p style="margin-bottom: 0">Dirección: 123 Calle Principal</p>
+            <p style="margin-bottom: 0">Tel: +34 957 567 890</p>
+            <p style="margin-bottom: 0">Correo: info@techzone.com</p>
           </div>
-          <div class="col-md-6">
-            <h3 class="text-light">Síguenos</h3>
-            <ul class="list-unstyled d-flex justify-content-end">
-              <li>
-                <a
-                  href="https://www.instagram.com/techzone/"
-                  target="_blank"
-                  class="text-light"
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com/techzone"
-                  target="_blank"
-                  class="text-light"
-                  ><i class="fab fa-twitter"></i
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="https://facebook.com/techzone/"
-                  target="_blank"
-                  class="text-light"
-                  ><i class="fab fa-facebook"></i
-                ></a>
-              </li>
-              <!-- Agrega aquí los enlaces a otras redes sociales -->
-            </ul>
+          <div class="col-md-6 text-light h3">
+            <h4>Síguenos</h4>
+            <a href="https://www.instagram.com/techzone/"
+              ><i class="fab fa-instagram mx-1 text-light"></i
+            ></a>
+            <a href="https://twitter.com/techzone"
+              ><i class="fab fa-twitter mx-1 text-info"></i
+            ></a>
+            <a href="https://facebook.com/techzone/"
+              ><i class="fab fa-facebook mx-1 text-light"></i
+            ></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p class="mt-0 mb-0 text-center" style="font-size: 16px">
+              © 2023 TechZone. Todos los derechos reservados.
+            </p>
           </div>
         </div>
       </div>

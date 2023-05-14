@@ -277,13 +277,13 @@
   }
 
   /* Chat Styles */
-  #chat {
+  /* #chat {
     height: 81vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-  }
+  } */
   
   .message {
     background-color: #fff;
@@ -448,15 +448,15 @@ p {
 }
 
 /* Estilos del Footer */
-footer {
+/* footer {
   background-color: #333;
   color: #fff;
   padding: 0.3em 0 0 2em;
   position: fixed;
   bottom: 0;
   width: 100%;
-  display: flex; /* mostrar iconos de redes sociales en una línea horizontal */
-
+  display: flex; *//* mostrar iconos de redes sociales en una línea horizontal */
+/* 
 }
 
 .footer-container {
@@ -508,4 +508,4 @@ footer {
 .footer-social i {
   font-size: 2rem;
   margin-right: 1rem;
-}
+} */
