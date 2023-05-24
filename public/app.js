@@ -43,11 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
 const productos = [
   {
     id: 1,
-    nombre: "Disco Externo",
-    precio: 0.01,
-    imagen: "img/DiscoExterno.jpg",
+    nombre: "Consola",
+    precio: 8.27,
+    imagen: "img/console.png",
     descripcion:
-      "'Fuerzas invisibles' es un thriller apasionante que le mantendrá en vilo de principio a fin. Cuando una serie de sucesos inexplicables ocurren en una pequeña ciudad, un grupo de héroes improbables debe unirse para descubrir la verdad que se esconde tras las misteriosas fuerzas en juego.",
+      "La videoconsola definitiva para una experiencia de juego inigualable.",
   },
   {
     id: 2,
@@ -55,7 +55,7 @@ const productos = [
     precio: 2,
     imagen: "img/light.png",
     descripcion:
-      "Presentamos nuestros nuevos focos LED: ¡el complemento perfecto para cualquier hogar o negocio! Con un diseño energético, estos focos le ayudarán a ahorrar dinero en la factura de la luz al tiempo que proporcionan una luz brillante y duradera. Además, su diseño elegante y moderno añadirá un toque de elegancia a cualquier espacio.",
+      "Iluminación inteligente y personalizada. Controla brillo y color desde tu dispositivo. Ahorra energía con LED de alta eficiencia. Estilo y funcionalidad en cada rincón.",
   },
   {
     id: 3,
@@ -63,15 +63,15 @@ const productos = [
     precio: 10,
     imagen: "img/pc.png",
     descripcion:
-      "Presentamos nuestro nuevo PC de última generación: la máquina definitiva para todas sus necesidades informáticas. Con velocidades de procesamiento ultrarrápidas, gráficos de alta calidad y un disco duro espacioso, este PC podrá con todo, desde los juegos hasta la edición de vídeo profesional.",
+      "Ordenador TechX: Potencia y Elegancia en uno. Rendimiento superior, diseño elegante. Pantalla brillante, conectividad versátil. ¡Tu compañero tecnológico perfecto!",
   },
   {
     id: 4,
-    nombre: "Consola",
-    precio: 8.27,
-    imagen: "img/console.png",
+    nombre: "Disco Externo",
+    precio: 0.01,
+    imagen: "img/DiscoExterno.jpg",
     descripcion:
-      "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
+      "Amplía tu capacidad de almacenamiento con el Disco Externo: seguro, rápido y fácil de usar.",
   },
   {
     id: 5,
@@ -79,16 +79,72 @@ const productos = [
     precio: 2.27,
     imagen: "img/kit.jpg",
     descripcion:
-      "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
+      "El Kit combina funcionalidad y comodidad en un diseño elegante y ergonómico para mejorar tu experiencia tecnológica.",
   },
   {
     id: 6,
-    nombre: "Laptop",
+    nombre: "Portátil",
     precio: 0.17,
     imagen: "img/laptop.jpg",
     descripcion:
-      "Presentamos la videoconsola más avanzada del mercado: ¡nuestra flamante consola cambia las reglas del juego! Con impresionantes gráficos 8K, velocidades de procesamiento ultrarrápidas y una biblioteca de juegos sin igual, esta consola te transportará a nuevos mundos y te proporcionará interminables horas de entretenimiento.",
+      "El portátil perfecto: potencia, portabilidad y rendimiento en un diseño elegante.",
   },
+  {
+    id: 7,
+    nombre: "Dron",
+    precio: 1.10,
+    imagen: "img/dron.jpg",
+    descripcion:
+      "El dron de última generación: compacto, con cámara de alta resolución, vuelos estables y fácil manejo. ¡Explora el mundo desde nuevas alturas",
+  },
+  {
+    id: 8,
+    nombre: "Funda",
+    precio: 0.30,
+    imagen: "img/funda.jpg",
+    descripcion:
+      "Protege tu celular con estilo. Funda delgada y resistente que mantiene tu dispositivo a salvo de golpes y rayones. Acceso fácil a botones y puertos.",
+  },
+  {
+    id: 9,
+    nombre: "Gafas VR",
+    precio: 15.17,
+    imagen: "img/gafasvr.jpg",
+    descripcion:
+      "Explora nuevos horizontes con nuestras gafas VR: calidad inmersiva y comodidad excepcional para una experiencia tecnológica sin límites.",
+  },
+  {
+    id: 10,
+    nombre: "Smartwatch",
+    precio: 6.02,
+    imagen: "img/smartwatch.jpg",
+    descripcion:
+      "El Smartwatch perfecto: estilo, funcionalidad y conexión en tu muñeca.",
+  },
+  {
+    id: 11,
+    nombre: "Wireless Earphones",
+    precio: 4.35,
+    imagen: "img/earphones.jpg",
+    descripcion:
+      "Experimenta la libertad musical con nuestros wireless earphones: sonido excepcional, sin cables.",
+  },
+  {
+    id: 12,
+    nombre: "Amazon Echo Dot",
+    precio: 1.74,
+    imagen: "img/echo.jpg",
+    descripcion:
+      "Amazon Echo: Tu asistente inteligente en casa. Controla, reproduce y obtén información con solo tu voz.",
+  },
+  {
+    id: 13,
+    nombre: "PS4",
+    precio: 5.12,
+    imagen: "img/ps4.jpg",
+    descripcion:
+      "PlayStation 4: Potencia, diseño y diversión en un solo lugar.",
+  }
 ];
 
 const cartBtn = document.getElementById("cartBtn");
@@ -335,7 +391,7 @@ function inicializarProductos() {
     img.alt = producto.nombre;
     h5.textContent = producto.nombre;
     p.textContent = producto.descripcion;
-    small.textContent = `$${producto.precio} ETH`;
+    small.textContent = `${producto.precio} ETH`;
     btnVer.setAttribute("data-id", producto.id);
     btnAgregar.setAttribute("data-id", producto.id);
     btnVer.id = "v-" + producto.id;
