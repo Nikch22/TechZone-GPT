@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const nickname = localStorage.getItem("nickname");
  
   if (nickname) {
-    // Aquí puedes utilizar el nickname para personalizar la página
-    // Por ejemplo, puedes mostrar un mensaje de bienvenida
+    // Aquí se utiliza el nickname para personalizar la página
+    // Por ejemplo, mostrar el mensaje de bienvenida
     console.log(`¡Bienvenid@ ${nickname}!`);
     //Variable Blockchain
     window.addEventListener("DOMContentLoaded", async (event) => {

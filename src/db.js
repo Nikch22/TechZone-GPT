@@ -1,24 +1,31 @@
 import mysql from 'mysql';
+import {
+DB_HOST,
+DB_USER,
+DB_PASSWORD,
+DB_NAME,
+DB_PORT
+} from './config.js'
 
 // Configuración de la base de datos
 const dbConfig = {
-  host: 'localhost', // Cambia esto si tu base de datos no está en tu máquina local
-  user: 'root',
-  password: 'root',
-  database: 'techzone'
+  host: DB_HOST, // Cambia esto si tu base de datos no está en tu máquina local
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_NAME
 };
 
 // Crear conexión a la base de datos
-const connection = mysql.createConnection(dbConfig);
+const connection = mysql.createPool(dbConfig);
 
-// Conectar a la base de datos
-connection.connect((err) => {
-  if (err) {
-    console.error('Error al conectar a la base de datos: ', err);
-    return;
-  }
-  console.log('Conexión exitosa a la base de datos');
-});
+// // Conectar a la base de datos
+// connection.connect((err) => {
+//   if (err) {
+//     console.error('Error al conectar a la base de datos: ', err);
+//     return;
+//   }
+//   console.log('Conexión exitosa a la base de datos');
+// });
 
 // Función para insertar un cliente en la tabla "customers"
 function insertarCustomer(customer, callback) {

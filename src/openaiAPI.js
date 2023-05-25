@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import { OPENAI_API_KEY } from './config.js';
 // Importa el paquete openai-node
 import OpenAI from 'openai';
 
@@ -9,7 +10,7 @@ export default async function chatbotGPT(userInput) {
 const { Configuration, OpenAIApi } = OpenAI;
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
