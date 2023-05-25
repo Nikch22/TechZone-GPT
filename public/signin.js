@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Guarda el nickname en LocalStorage
       localStorage.setItem('correo', correo.value);
       // Si todos los campos están llenos, redirige a index.html
-      window.location.href = './index.html';
+      window.location.href = './productos.html';
     }
   });
 });

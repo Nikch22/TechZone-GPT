@@ -15,7 +15,7 @@ messageInput.addEventListener('keyup', (event) => {
     
     let gpt = '';
     console.log(message);
-    fetch('techzone-gpt-production.up.railway.app/chatbot', {
+    fetch('https://techzone-gpt-production.up.railway.app/chatbot', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

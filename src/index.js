@@ -77,7 +77,7 @@ app.post(WEBHOOK_URL, (req, res) => {
         const jsonVenta = JSON.stringify(jsonDataBonita);
         axios
           .post(
-            "https://hooks.zapier.com/hooks/catch/15227573/362unrx/",
+            "https://hooks.zapier.com/hooks/catch/15437481/3tyd0s9/",
             jsonVenta
           )
           .then((response) => {
@@ -113,7 +113,7 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log("Servidor escuchando en el puerto " + PORT);
-  console.log(`Webhook de pago: ${WEBHOOK_URL}`);
+  console.log(`Webhook de pago Habilitado: ${WEBHOOK_URL}`);
 });
 
 // Llama a la función chatbot

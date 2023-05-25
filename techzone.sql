@@ -1,27 +1,22 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versión del servidor:         10.3.18-MariaDB - mariadb.org binary distribution
--- SO del servidor:              Win64
--- HeidiSQL Versión:             11.0.0.5919
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Volcando estructura para tabla techzone.categories
-DROP TABLE IF EXISTS `categories`;
+CREATE DATABASE IF NOT EXISTS `techzone` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
+USE `techzone`;
+
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.categories: ~31 rows (aproximadamente)
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-REPLACE INTO `categories` (`id`, `name`) VALUES
+INSERT IGNORE INTO `categories` (`id`, `name`) VALUES
 	(1, 'Laptops'),
 	(2, 'Smartphones'),
 	(3, 'Tablets'),
@@ -53,21 +48,16 @@ REPLACE INTO `categories` (`id`, `name`) VALUES
 	(29, 'Dispositivos Médicos'),
 	(30, 'Instrumentos Musicales'),
 	(50, 'Impresoras');
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.customers
-DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `nickname` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.customers: ~27 rows (aproximadamente)
-/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-REPLACE INTO `customers` (`id`, `name`, `email`, `nickname`) VALUES
+INSERT IGNORE INTO `customers` (`id`, `name`, `email`, `nickname`) VALUES
 	(1, 'John Doe', 'john.doe@example.com', ''),
 	(2, 'Jane Smith', 'jane.smith@example.com', ''),
 	(3, 'Maria Rodriguez', 'maria.rodriguez@example.com', ''),
@@ -90,26 +80,21 @@ REPLACE INTO `customers` (`id`, `name`, `email`, `nickname`) VALUES
 	(20, 'Victoria Romero', 'victoria.romero@example.com', ''),
 	(21, 'Diego Rojas', 'diego.rojas@example.com', ''),
 	(22, 'Daniela Ortega', 'daniela.ortega@example.com', ''),
-	(23, 'Mariana Zapata', 'mariana.zapata@example.com', ''),
-	(24, 'Sebastian Osorio', 'sebastian.osorio@example.com', ''),
-	(52, 'Michael Brown', 'michael.brown@example.com', ''),
-	(53, 'Jessica Taylor', 'jessica.taylor@example.com', ''),
-	(100, 'Fernando Pérez', 'fernando.perez@example.com', ''),
+	(23, 'Mariana Zapata', 'mariana.zapata@example.com', 'mariza'),
+	(24, 'Sebastian Osorio', 'sebastian.osorio@example.com', 'sebas'),
+	(52, 'Michael Brown', 'michael.brown@example.com', 'milos'),
+	(53, 'Jessica Taylor', 'jessica.taylor@example.com', 'calea'),
+	(100, 'Fernando Pérez', 'fernando.perez@example.com', 'pedrito'),
 	(101, 'name', 'email', 'nickname'),
 	(102, 'name', 'email', 'nickname');
-/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.dates
-DROP TABLE IF EXISTS `dates`;
 CREATE TABLE IF NOT EXISTS `dates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.dates: ~27 rows (aproximadamente)
-/*!40000 ALTER TABLE `dates` DISABLE KEYS */;
-REPLACE INTO `dates` (`id`, `date`) VALUES
+INSERT IGNORE INTO `dates` (`id`, `date`) VALUES
 	(1, '2023-01-01 10:37:42'),
 	(2, '2023-01-02 18:52:11'),
 	(3, '2023-01-03 20:21:15'),
@@ -137,21 +122,16 @@ REPLACE INTO `dates` (`id`, `date`) VALUES
 	(71, '2023-03-12 15:08:59'),
 	(72, '2023-03-13 10:04:38'),
 	(100, '2023-04-30 19:56:44');
-/*!40000 ALTER TABLE `dates` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.employees
-DROP TABLE IF EXISTS `employees`;
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
   `department` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.employees: ~27 rows (aproximadamente)
-/*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-REPLACE INTO `employees` (`id`, `name`, `role`, `department`) VALUES
+INSERT IGNORE INTO `employees` (`id`, `name`, `role`, `department`) VALUES
 	(1, 'Alice Johnson', 'Salesperson', 'Sales'),
 	(2, 'Bob Thompson', 'Salesperson', 'Sales'),
 	(3, 'Miguel Ángel García', 'Salesperson', 'Sales'),
@@ -179,10 +159,7 @@ REPLACE INTO `employees` (`id`, `name`, `role`, `department`) VALUES
 	(32, 'Zoe Robinson', 'Salesperson', 'Sales'),
 	(33, 'Hannah Perry', 'Salesperson', 'Sales'),
 	(50, 'Victoria Lee', 'Salesperson', 'Sales');
-/*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.inventory
-DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT NULL,
@@ -196,11 +173,9 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
   CONSTRAINT `inventory_ibfk_3` FOREIGN KEY (`date_id`) REFERENCES `dates` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.inventory: ~25 rows (aproximadamente)
-/*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-REPLACE INTO `inventory` (`id`, `product_id`, `location_id`, `date_id`, `quantity`) VALUES
+INSERT IGNORE INTO `inventory` (`id`, `product_id`, `location_id`, `date_id`, `quantity`) VALUES
 	(1, 1, 1, 1, 10),
 	(2, 2, 2, 2, 15),
 	(3, 3, 3, 3, 8),
@@ -226,21 +201,16 @@ REPLACE INTO `inventory` (`id`, `product_id`, `location_id`, `date_id`, `quantit
 	(70, 52, 27, 70, 50),
 	(71, 12, 11, 71, 12),
 	(72, 24, 3, 72, 24);
-/*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.locations
-DROP TABLE IF EXISTS `locations`;
 CREATE TABLE IF NOT EXISTS `locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `city` varchar(255) NOT NULL,
   `state` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.locations: ~40 rows (aproximadamente)
-/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-REPLACE INTO `locations` (`id`, `city`, `state`, `country`) VALUES
+INSERT IGNORE INTO `locations` (`id`, `city`, `state`, `country`) VALUES
 	(1, 'San Francisco', 'California', 'Estados Unidos'),
 	(2, 'New York', 'New York', 'Estados Unidos'),
 	(3, 'Toronto', 'Ontario', 'Canadá'),
@@ -281,10 +251,7 @@ REPLACE INTO `locations` (`id`, `city`, `state`, `country`) VALUES
 	(38, 'Ciudad de México', 'Ciudad de México', 'México'),
 	(39, 'Guadalajara', 'Jalisco', 'México'),
 	(50, 'París', 'Île-de-France', 'Francia');
-/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.products
-DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -294,11 +261,9 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.products: ~37 rows (aproximadamente)
-/*!40000 ALTER TABLE `products` DISABLE KEYS */;
-REPLACE INTO `products` (`id`, `name`, `price`, `cost`, `category_id`) VALUES
+INSERT IGNORE INTO `products` (`id`, `name`, `price`, `cost`, `category_id`) VALUES
 	(1, 'Laptop ABC', 1200.00, 800.00, 1),
 	(2, 'Smartphone XYZ', 800.00, 600.00, 2),
 	(3, 'Laptop DEF', 1300.00, 900.00, 1),
@@ -336,10 +301,7 @@ REPLACE INTO `products` (`id`, `name`, `price`, `cost`, `category_id`) VALUES
 	(52, 'Cámara DSLR OPQ', 900.00, 700.00, 5),
 	(53, 'Monitor 4K UVW', 650.00, 450.00, 4),
 	(100, 'Mouse ergonómico RST', 40.00, 25.00, 6);
-/*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.purchases
-DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE IF NOT EXISTS `purchases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT NULL,
@@ -354,11 +316,9 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
   CONSTRAINT `purchases_ibfk_3` FOREIGN KEY (`date_id`) REFERENCES `dates` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.purchases: ~26 rows (aproximadamente)
-/*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
-REPLACE INTO `purchases` (`id`, `product_id`, `supplier_id`, `date_id`, `quantity`, `cost`) VALUES
+INSERT IGNORE INTO `purchases` (`id`, `product_id`, `supplier_id`, `date_id`, `quantity`, `cost`) VALUES
 	(1, 1, 1, 1, 10, 800.00),
 	(2, 2, 2, 2, 15, 700.00),
 	(3, 3, 3, 3, 20, 900.00),
@@ -385,10 +345,7 @@ REPLACE INTO `purchases` (`id`, `product_id`, `supplier_id`, `date_id`, `quantit
 	(24, 4, 4, 70, 145, 600.00),
 	(25, 1, 1, 71, 150, 800.00),
 	(26, 2, 2, 72, 155, 700.00);
-/*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.sales
-DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT NULL,
@@ -409,11 +366,9 @@ CREATE TABLE IF NOT EXISTS `sales` (
   CONSTRAINT `sales_ibfk_3` FOREIGN KEY (`date_id`) REFERENCES `dates` (`id`),
   CONSTRAINT `sales_ibfk_4` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   CONSTRAINT `sales_ibfk_5` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.sales: ~26 rows (aproximadamente)
-/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-REPLACE INTO `sales` (`id`, `product_id`, `location_id`, `date_id`, `customer_id`, `employee_id`, `units_sold`, `revenue`) VALUES
+INSERT IGNORE INTO `sales` (`id`, `product_id`, `location_id`, `date_id`, `customer_id`, `employee_id`, `units_sold`, `revenue`) VALUES
 	(1, 1, 1, 1, 1, 1, 1, 1200.00),
 	(2, 2, 2, 2, 2, 2, 2, 1600.00),
 	(3, 3, 3, 3, 3, 3, 1, 1300.00),
@@ -440,21 +395,38 @@ REPLACE INTO `sales` (`id`, `product_id`, `location_id`, `date_id`, `customer_id
 	(71, 16, 36, 52, 13, 28, 3, 729.00),
 	(72, 25, 7, 70, 20, 15, 5, 3267.00),
 	(73, 10, 39, 69, 22, 19, 4, 1698.00);
-/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 
--- Volcando estructura para tabla techzone.suppliers
-DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Volcando datos para la tabla techzone.suppliers: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 
+CREATE TABLE IF NOT EXISTS `ventas` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(255) NOT NULL,
+  `correo` varchar(255) NOT NULL,
+  `nombreProductos` varchar(255) NOT NULL,
+  `valorPagar` double(10,4) NOT NULL,
+  `divisa` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+INSERT IGNORE INTO `ventas` (`id`, `nickname`, `correo`, `nombreProductos`, `valorPagar`, `divisa`) VALUES
+	(1, 'karel', 'kar@uco.es', '["Libro"]', 0.0100, 'ETH'),
+	(2, 'karel', 'kar@uco.es', '["Libro","Libro"]', 0.0200, 'ETH'),
+	(3, 'karel', 'kar@uco.es', '["Libro","Libro"]', 0.0200, 'ETH'),
+	(4, 'karel', 'kar@uco.es', '["Libro","Libro"]', 0.0200, 'ETH'),
+	(5, 'TechZonePrueba', 'xibel74045@dekaps.com', '["Libro","Focos","Consola"]', 10.2800, 'ETH'),
+	(6, 'TechZonePrueba', 'xibel74045@dekaps.com', '["Disco Externo","Kit \'Teclado + Ratón\'","Focos"]', 4.2800, 'ETH'),
+	(7, 'ClienteTechZone', 'tibeto7107@jwsuns.com', '["Focos","Ordenador","Portátil"]', 12.1700, 'ETH'),
+	(8, 'cliente', 'tibeto7107@jwsuns.com', '["Kit \'Teclado + Ratón\'","Dron"]', 3.3700, 'ETH'),
+	(9, 'cliente', 'lipecov191@dekaps.com', '["Portátil","Ordenador"]', 10.1700, 'ETH');
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

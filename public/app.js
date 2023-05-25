@@ -1,43 +1,39 @@
 let provider;
 let network;
-let signer; 
+let signer;
 let account;
-let balance; 
+let balance;
 let balanceETH;
 
 document.addEventListener("DOMContentLoaded", function () {
-  const nickname = localStorage.getItem("nickname");
- 
-  if (nickname) {
-    // Aquí se utiliza el nickname para personalizar la página
-    // Por ejemplo, mostrar el mensaje de bienvenida
-    console.log(`¡Bienvenid@ ${nickname}!`);
-    //Variable Blockchain
-    window.addEventListener("DOMContentLoaded", async (event) => {
-      // Conectarse a MetaMask
-      await window.ethereum.enable();
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-
-      // Obtener la red activa
-      network = await provider.getNetwork();
-
-      // Obtener la dirección de la cuenta activa
-      signer = provider.getSigner();
-      account = await signer.getAddress();
-
-      // Obtener el saldo de la cuenta activa
-      balance = await provider.getBalance(account);
-      balanceETH = ethers.utils.formatEther(balance);
-
-      // Actualizar la información en la página
-      // document.getElementById("network").textContent = network.name;
-      // document.getElementById("account").textContent = account;
-      // document.getElementById("balance").textContent = balanceETH;
-    });
-  } else {
-    // Si no hay un nickname guardado, puedes redirigir al usuario a la página de inicio de sesión
-    window.location.href = "./signin.html";
-  }
+  // VERSION COMENTADA PARA LA ENTREGA
+  // const nickname = localStorage.getItem("nickname");
+  // if (nickname) {
+  //   // Aquí se utiliza el nickname para personalizar la página
+  //   // Por ejemplo, mostrar el mensaje de bienvenida
+  //   console.log(`¡Bienvenid@ ${nickname}!`);
+  //   //Variable Blockchain
+  //   window.addEventListener("DOMContentLoaded", async (event) => {
+  //     // Conectarse a MetaMask
+  //     await window.ethereum.enable();
+  //     provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     // Obtener la red activa
+  //     network = await provider.getNetwork();
+  //     // Obtener la dirección de la cuenta activa
+  //     signer = provider.getSigner();
+  //     account = await signer.getAddress();
+  //     // Obtener el saldo de la cuenta activa
+  //     balance = await provider.getBalance(account);
+  //     balanceETH = ethers.utils.formatEther(balance);
+  //     // Actualizar la información en la página
+  //     // document.getElementById("network").textContent = network.name;
+  //     // document.getElementById("account").textContent = account;
+  //     // document.getElementById("balance").textContent = balanceETH;
+  //   });
+  // } else {
+  //   // Si no hay un nickname guardado, puedes redirigir al usuario a la página de inicio de sesión
+  //   window.location.href = "./signin.html";
+  // }
 });
 
 const productos = [
@@ -92,7 +88,7 @@ const productos = [
   {
     id: 7,
     nombre: "Dron",
-    precio: 1.10,
+    precio: 1.1,
     imagen: "img/dron.jpg",
     descripcion:
       "El dron de última generación: compacto, con cámara de alta resolución, vuelos estables y fácil manejo. ¡Explora el mundo desde nuevas alturas",
@@ -100,7 +96,7 @@ const productos = [
   {
     id: 8,
     nombre: "Funda",
-    precio: 0.30,
+    precio: 0.3,
     imagen: "img/funda.jpg",
     descripcion:
       "Protege tu celular con estilo. Funda delgada y resistente que mantiene tu dispositivo a salvo de golpes y rayones. Acceso fácil a botones y puertos.",
@@ -144,7 +140,7 @@ const productos = [
     imagen: "img/ps4.jpg",
     descripcion:
       "PlayStation 4: Potencia, diseño y diversión en un solo lugar.",
-  }
+  },
 ];
 
 const cartBtn = document.getElementById("cartBtn");
@@ -215,7 +211,7 @@ function mostrarCarrito() {
   totalCarritoEl.appendChild(pagoBtn);
 }
 
-const realizarPagoBlockchain = async (totalPago,ids) => {
+const realizarPagoBlockchain = async (totalPago, ids) => {
   const abi = [
     {
       inputs: [],
@@ -303,50 +299,60 @@ const realizarPago = (carrito, valorAPagar) => {
     //Obtengo los datos para el objeto a enviar
     carrito.forEach((producto) => {
       nombresProductos.push(producto.nombre);
-      idsProductos.push(producto.id)
+      idsProductos.push(producto.id);
     });
+
     const nickname = localStorage.getItem("nickname");
     const correo = localStorage.getItem("correo");
+    // VERSION DE LA ENTREGA
+    if (nickname && correo) {
+      console.log(`Validad@ ${nickname}!`);
+      alert("Pago realizado con éxito");
 
-    //Procesar Pago en la Blockchain
-    // Manejar el evento del botón "Enviar transacción"
-    realizarPagoBlockchain(valorAPagar,idsProductos)
-      .then((resultado) => {
-        alert("Pago realizado con éxito");
+      /* Enviar datos al Backend */
+      // Armar el JSON
+      const data = {
+        nickname: nickname,
+        correo: correo,
+        nombresProductos: nombresProductos,
+        valorAPagar: valorAPagar,
+      };
+      // Convertir el JSON a texto
+      const jsonDatosPago = JSON.stringify(data);
 
-        /* Enviar datos al Backend */
-        // Armar el JSON
-        const data = {
-          nickname: nickname,
-          correo: correo,
-          nombresProductos: nombresProductos,
-          valorAPagar: valorAPagar,
-        };
-        // Convertir el JSON a texto
-        const jsonDatosPago = JSON.stringify(data);
-
-        console.log(jsonDatosPago);
-        fetch("http://localhost:3000/webhook/pago", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: jsonDatosPago, // el mensaje de parámetro que quieres enviar
+      console.log(jsonDatosPago);
+      fetch("https://techzone-gpt-production.up.railway.app/webhook/pago", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonDatosPago, // el mensaje de parámetro que quieres enviar
+      })
+        .then((response) => {
+          console.warn("Notificación enviada");
+          response.json();
         })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data !== "") {
-              alert("Pago Notificado Exitosamente!");
-            }
-          })
-          .catch((error) => console.error(error));
+        .then((data) => {
+          if (data !== "") {
+            alert("Pago Notificado Exitosamente!");
+          }
+        })
+        .catch((error) => console.error(error));
 
-      }) 
-      .catch((error) => {//Error del pago en la blockchain
-        console.error("Error al realizar el pago:", error);
-      });
+      //Procesar Pago en la Blockchain
+      // Manejar el evento del botón "Enviar transacción"
+      // realizarPagoBlockchain(valorAPagar, idsProductos)
+      //   .then((resultado) => {
 
-
+      //   })
+      //   .catch((error) => {
+      //     //Error del pago en la blockchain
+      //     console.error("Error al realizar el pago:", error);
+      //   });
+    } else {
+      // Si no hay un nickname guardado, puedes redirigir al usuario a la página de inicio de sesión
+      window.location.href = "./signin.html";
+    }
   }
 };
 

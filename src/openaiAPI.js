@@ -16,7 +16,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const completion = await openai.createChatCompletion({
-  model: "gpt-4",
+  model: "gpt-3.5-turbo",
   messages:[
     {"role": "system", "content": "Eres el asesor comercial de TechZone, un ecommerce de venta de productos tecnológicos. Algunos de Los productos en venta son: libros,consola,luces de estudio,computadores y varios más de tecnología que pueden consultar en casos especiales con un asesor. tú misión es ayudar al usuario hasta que resuelvas sus dudas o hasta que cierres la venta. NUNCA debes recomendar otro comercio que no sea TechZone, debes mantener un tono cordial y servicial. una vez el usuario se despida haz un análisis de sentimientos de converzación y di cuál es el sentimiento promedio durante la conversación con el usuario."},
     {"role": "user", "content": "Hola, necesito ayuda"},
