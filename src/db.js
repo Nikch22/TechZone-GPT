@@ -1,35 +1,26 @@
 import mysql from 'mysql';
 import {
-DB_HOST,
-DB_USER,
-DB_PASSWORD,
-DB_NAME,
-DB_PORT
-} from './config.js'
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DB_PORT
+} from './config.js';
 
 // Configuración de la base de datos
 const dbConfig = {
-  host: DB_HOST, // Cambia esto si tu base de datos no está en tu máquina local
+  host: DB_HOST,
   user: DB_USER,
   password: DB_PASSWORD,
-  database: DB_NAME
+  database: DB_NAME,
 };
 
 // Crear conexión a la base de datos
-const connection = mysql.createPool(dbConfig);
-
-// // Conectar a la base de datos
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Error al conectar a la base de datos: ', err);
-//     return;
-//   }
-//   console.log('Conexión exitosa a la base de datos');
-// });
+const pool = mysql.createPool(dbConfig);
 
 // Función para insertar un cliente en la tabla "customers"
 function insertarCustomer(customer, callback) {
-  connection.query('INSERT INTO customers SET ?', customer, (err, results) => {
+  pool.query('INSERT INTO customers SET ?', customer, (err, results) => {
     if (err) {
       console.error('Error al insertar un cliente: ', err);
       callback(err, null);
@@ -40,24 +31,24 @@ function insertarCustomer(customer, callback) {
   });
 }
 
-// Función para insertar un cliente en la tabla "customers"
+// Función para insertar una venta en la tabla "ventas"
 function insertarVenta(sale, callback) {
-  connection.query('INSERT INTO ventas SET ?', sale, (err, results) => {
+  pool.query('INSERT INTO ventas SET ?', sale, (err, results) => {
     if (err) {
       console.error('Error al insertar la venta: ', err);
       callback(err, null);
       return;
     }
-    console.log('Venta insertado exitosamente');
+    console.log('Venta insertada exitosamente');
     callback(null, results.insertId);
   });
 }
 
 // Función para buscar un cliente en la tabla "customers" por su nickname
 function buscarCustomerPorNickname(nickname, callback) {
-  return connection.query('SELECT * FROM customers WHERE nickname = ?', nickname, (err, results) => {
+  pool.query('SELECT * FROM customers WHERE nickname = ?', nickname, (err, results) => {
     if (err) {
-      console.error('Error al un cliente el nickname: ', err);
+      console.error('Error al buscar un cliente por nickname: ', err);
       callback(err, null);
       return;
     }
@@ -67,4 +58,4 @@ function buscarCustomerPorNickname(nickname, callback) {
 }
 
 // Exportar las funciones y la conexión para su uso en otros archivos
-export default { connection, insertarCustomer, insertarVenta };
+export default { pool, insertarCustomer, insertarVenta, buscarCustomerPorNickname };
