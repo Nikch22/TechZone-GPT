@@ -34,6 +34,7 @@ function insertarCustomer(customer, callback) {
 // Función para insertar una venta en la tabla "ventas"
 function insertarVenta(sale, callback) {
   pool.query('INSERT INTO ventas SET ?', sale, (err, results) => {
+    console.log(`Query a Ejecutar: ${ query }\n`);
     if (err) {
       console.error('Error al insertar la venta: ', err);
       callback(err, null);
