@@ -2,6 +2,7 @@ import chatbotGPT from "./openaiAPI.js";
 import techzoneDB from "./db.js";
 import express from "express";
 import axios from "axios";
+import { PORT } from "./config.js";
 
 const app = express();
 const WEBHOOK_URL = process.env.WEBHOOK_URL || "/webhook/pago";
@@ -110,8 +111,8 @@ app.use((err, req, res, next) => {
   res.status(500).send("Error en el servidor");
 });
 
-app.listen(3000, () => {
-  console.log("Servidor escuchando en el puerto 3000");
+app.listen(PORT, () => {
+  console.log("Servidor escuchando en el puerto " + PORT);
   console.log(`Webhook de pago: ${WEBHOOK_URL}`);
 });
 
